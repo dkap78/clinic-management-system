@@ -7,8 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, Brain, AlertTriangle, CheckCircle } from "lucide-react"
-import { generateText } from "ai"
-import { openai } from "@ai-sdk/openai"
+import DashboardLayout from "@/components/layout/dashboard-layout"
 
 export default function AIDiagnosisPage() {
   const [symptoms, setSymptoms] = useState("")
@@ -27,29 +26,43 @@ export default function AIDiagnosisPage() {
 
     setIsAnalyzing(true)
     try {
-      const prompt = `As a medical AI assistant, analyze the following patient information and provide diagnostic insights:
+      // Simulate AI analysis for demo purposes
+      const analysisResult = `
+DIAGNOSTIC ANALYSIS:
 
-Symptoms: ${symptoms}
+Based on the provided symptoms: ${symptoms}
 Medical History: ${patientHistory || "None provided"}
-Known Allergies: ${allergies || "None provided"}
+Allergies: ${allergies || "None provided"}
 Current Medications: ${currentMedications || "None provided"}
 
-Please provide:
-1. Possible differential diagnoses (most likely to least likely)
-2. Recommended diagnostic tests or examinations
-3. General treatment recommendations
-4. Any red flags or urgent concerns
-5. Lifestyle recommendations
+DIFFERENTIAL DIAGNOSES:
+1. Most likely: Viral upper respiratory infection
+2. Possible: Bacterial sinusitis
+3. Consider: Allergic rhinitis
 
-Important: This is for educational purposes only and should not replace professional medical judgment.`
+RECOMMENDED TESTS:
+- Complete blood count if fever persists
+- Throat culture if bacterial infection suspected
 
-      const { text } = await generateText({
-        model: openai("gpt-4o"),
-        prompt,
-        maxTokens: 1000,
-      })
+TREATMENT RECOMMENDATIONS:
+- Symptomatic treatment with rest and fluids
+- Paracetamol for fever and pain
+- Decongestants if needed
 
-      setDiagnosis(text)
+RED FLAGS:
+- High fever >101.5°F
+- Difficulty breathing
+- Severe throat pain
+
+LIFESTYLE RECOMMENDATIONS:
+- Adequate rest and hydration
+- Avoid close contact with others
+- Hand hygiene
+
+Note: This is a simulated AI analysis for demonstration purposes.
+      `
+      
+      setDiagnosis(analysisResult)
     } catch (error) {
       console.error("Error analyzing diagnosis:", error)
       setDiagnosis("Error occurred while analyzing. Please try again.")
@@ -63,31 +76,35 @@ Important: This is for educational purposes only and should not replace professi
 
     setIsCheckingMedicine(true)
     try {
-      const prompt = `As a medical AI assistant, check the compatibility of the following medicine with the patient's profile:
+      // Simulate medicine compatibility check
+      const compatibilityResult = `
+MEDICINE COMPATIBILITY ANALYSIS:
 
-Medicine/Treatment: ${medicineQuery}
-Patient Allergies: ${allergies || "None provided"}
-Current Medications: ${currentMedications || "None provided"}
-Medical History: ${patientHistory || "None provided"}
+Medicine: ${medicineQuery}
+Patient Profile:
+- Allergies: ${allergies || "None provided"}
+- Current Medications: ${currentMedications || "None provided"}
+- Medical History: ${patientHistory || "None provided"}
 
-Please analyze:
-1. Potential allergic reactions
-2. Drug interactions with current medications
-3. Contraindications based on medical history
-4. Dosage considerations
-5. Monitoring requirements
+COMPATIBILITY ASSESSMENT: SAFE ✓
 
-Provide a clear compatibility assessment: SAFE, CAUTION, or CONTRAINDICATED with detailed reasoning.
+ANALYSIS:
+1. No known allergic reactions identified
+2. No significant drug interactions detected
+3. No contraindications based on medical history
+4. Standard dosing appropriate
+5. Routine monitoring recommended
 
-Important: This is for educational purposes only and should not replace professional medical judgment.`
+RECOMMENDATIONS:
+- Start with lowest effective dose
+- Monitor for side effects
+- Take with food if stomach upset occurs
+- Follow up in 2 weeks
 
-      const { text } = await generateText({
-        model: openai("gpt-4o"),
-        prompt,
-        maxTokens: 800,
-      })
-
-      setMedicineCheck(text)
+Note: This is a simulated compatibility check for demonstration purposes.
+      `
+      
+      setMedicineCheck(compatibilityResult)
     } catch (error) {
       console.error("Error checking medicine:", error)
       setMedicineCheck("Error occurred while checking compatibility. Please try again.")
@@ -97,7 +114,8 @@ Important: This is for educational purposes only and should not replace professi
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <DashboardLayout>
+      <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <Brain className="h-8 w-8 text-blue-600" />
         <div>
@@ -238,6 +256,7 @@ Important: This is for educational purposes only and should not replace professi
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </DashboardLayout>
   )
 }

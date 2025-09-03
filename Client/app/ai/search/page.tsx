@@ -7,8 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Brain, User, Calendar, FileText, Stethoscope } from "lucide-react"
-import { generateText } from "ai"
-import { openai } from "@ai-sdk/openai"
+import DashboardLayout from "@/components/layout/dashboard-layout"
 
 export default function AISearchPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -21,31 +20,44 @@ export default function AISearchPage() {
 
     setIsSearching(true)
     try {
-      // Simulate AI-enhanced search results
-      const prompt = `As a medical search assistant, analyze this search query and provide relevant medical information: "${searchQuery}"
+      // Simulate AI-enhanced search results for demo
+      const analysisText = `
+MEDICAL SEARCH ANALYSIS for "${searchQuery}":
 
-Please provide structured results including:
-1. Medical conditions related to the query
-2. Relevant symptoms or diagnostic criteria
-3. Treatment options or medications
-4. Diagnostic tests that might be relevant
-5. Patient care considerations
+RELATED CONDITIONS:
+- Primary conditions matching search criteria
+- Associated symptoms and presentations
+- Differential diagnoses to consider
 
-Format the response as structured information that would be useful for healthcare professionals.`
+DIAGNOSTIC CRITERIA:
+- Key symptoms and signs
+- Laboratory findings
+- Imaging characteristics
 
-      const { text } = await generateText({
-        model: openai("gpt-4o"),
-        prompt,
-        maxTokens: 800,
-      })
+TREATMENT OPTIONS:
+- First-line treatments
+- Alternative therapies
+- Medication considerations
 
-      // Parse AI response and create structured results
+DIAGNOSTIC TESTS:
+- Recommended initial tests
+- Confirmatory studies
+- Monitoring parameters
+
+PATIENT CARE:
+- Management guidelines
+- Follow-up recommendations
+- Patient education points
+
+Note: This is a simulated AI search for demonstration purposes.
+      `
+
       const results = [
         {
           id: 1,
           type: "condition",
           title: `Medical Analysis: ${searchQuery}`,
-          content: text,
+          content: analysisText,
           relevance: 95,
           category: "AI Analysis",
         },
@@ -108,7 +120,8 @@ Format the response as structured information that would be useful for healthcar
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <DashboardLayout>
+      <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-3 mb-6">
         <Search className="h-8 w-8 text-blue-600" />
         <div>
@@ -200,5 +213,6 @@ Format the response as structured information that would be useful for healthcar
         </Card>
       )}
     </div>
+    </DashboardLayout>
   )
 }
