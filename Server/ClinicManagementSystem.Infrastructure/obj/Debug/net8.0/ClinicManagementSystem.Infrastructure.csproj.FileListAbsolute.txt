@@ -1,0 +1,6 @@
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.csproj.AssemblyReference.cache
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.AssemblyInfoInputs.cache
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.AssemblyInfo.cs
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.csproj.CoreCompileInputs.cache
+/workspace/ClinicManagementSystem.Infrastructure/obj/Debug/net8.0/ClinicManagementSystem.Infrastructure.sourcelink.json
