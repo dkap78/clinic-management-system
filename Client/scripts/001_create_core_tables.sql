@@ -18,10 +18,12 @@ CREATE TABLE IF NOT EXISTS public.doctors (
   user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
   specialization TEXT NOT NULL,
   license_number TEXT UNIQUE NOT NULL,
-  qualification TEXT NOT NULL,
   experience_years INTEGER DEFAULT 0,
   consultation_fee DECIMAL(10,2) DEFAULT 0,
   is_available BOOLEAN DEFAULT true,
+  phone TEXT,
+  bio TEXT,
+  education TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -51,19 +53,37 @@ CREATE TABLE IF NOT EXISTS public.doctor_special_availability (
   UNIQUE(doctor_id, date)
 );
 
+-- Mirror table used in client code
+CREATE TABLE IF NOT EXISTS public.doctor_special_dates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  doctor_id UUID NOT NULL REFERENCES public.doctors(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  start_time TIME,
+  end_time TIME,
+  is_available BOOLEAN NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(doctor_id, date)
+);
+
 -- Patients table
 CREATE TABLE IF NOT EXISTS public.patients (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
-  patient_id TEXT UNIQUE NOT NULL, -- Custom patient ID like P001, P002
-  date_of_birth DATE,
-  gender TEXT CHECK (gender IN ('male', 'female', 'other')),
-  blood_group TEXT,
+  patient_id TEXT UNIQUE,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT NOT NULL,
+  date_of_birth DATE NOT NULL,
+  gender TEXT CHECK (gender IN ('Male', 'Female', 'Other')),
+  address TEXT,
   emergency_contact_name TEXT,
   emergency_contact_phone TEXT,
-  address TEXT,
-  allergies TEXT[],
-  chronic_conditions TEXT[],
+  blood_group TEXT,
+  medical_history TEXT,
+  allergies TEXT,
+  current_medications TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -103,6 +123,7 @@ ALTER TABLE public.doctor_special_availability ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.patients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_doctor_associations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.appointments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.doctor_special_dates ENABLE ROW LEVEL SECURITY;
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_role ON public.users(role);

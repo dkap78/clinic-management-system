@@ -46,3 +46,34 @@ INSERT INTO public.prescription_templates (name, category, medications, instruct
 'Avoid spicy foods, eat small frequent meals, avoid NSAIDs', '00000000-0000-0000-0000-000000000000')
 
 ON CONFLICT (name, category) DO NOTHING;
+
+-- Consultation templates seed
+INSERT INTO public.consultation_templates (name, type, content) VALUES
+('Common Cold Template', 'diagnosis', 'Symptoms: ...\nDiagnosis: Common Cold\nPlan: Rest, hydration'),
+('Hypertension Follow-up', 'followup', 'Check BP, adjust meds if needed'),
+('Diabetes Visit', 'treatment', 'Review HbA1c, diet, and exercise');
+
+-- Seed minimal sample users/doctors/patients for UI testing (requires existing auth users)
+-- If using raw Supabase without auth users, comment out users insert
+INSERT INTO public.users (id, email, full_name, role)
+VALUES
+('00000000-0000-0000-0000-000000000000', 'admin@example.com', 'Admin User', 'admin')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.doctors (id, user_id, specialization, license_number, is_available)
+VALUES
+('11111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-000000000000', 'General Medicine', 'LIC-0001', true)
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.patients (id, first_name, last_name, email, phone, date_of_birth, gender)
+VALUES
+('22222222-2222-2222-2222-222222222222', 'John', 'Doe', 'john.doe@example.com', '+1-555-0100', '1985-01-10', 'Male'),
+('33333333-3333-3333-3333-333333333333', 'Jane', 'Smith', 'jane.smith@example.com', '+1-555-0101', '1990-07-20', 'Female')
+ON CONFLICT (id) DO NOTHING;
+
+-- Simple availability for demo doctor
+INSERT INTO public.doctor_schedules (doctor_id, day_of_week, start_time, end_time, is_available)
+VALUES
+('11111111-1111-1111-1111-111111111111', 1, '09:00', '17:00', true),
+('11111111-1111-1111-1111-111111111111', 3, '09:00', '17:00', true)
+ON CONFLICT DO NOTHING;

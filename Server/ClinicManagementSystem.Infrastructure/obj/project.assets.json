@@ -4677,11 +4677,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspace/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
+      "projectUniqueName": "/workspace/Server/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
       "projectName": "ClinicManagementSystem.Infrastructure",
-      "projectPath": "/workspace/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
+      "projectPath": "/workspace/Server/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
       "packagesPath": "/home/ubuntu/.nuget/packages/",
-      "outputPath": "/workspace/ClinicManagementSystem.Infrastructure/obj/",
+      "outputPath": "/workspace/Server/ClinicManagementSystem.Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/ubuntu/.nuget/NuGet/NuGet.Config"
@@ -4696,8 +4696,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj": {
-              "projectPath": "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj"
+            "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj": {
+              "projectPath": "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj"
             }
           }
         }
@@ -4760,7 +4760,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/ubuntu/.dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

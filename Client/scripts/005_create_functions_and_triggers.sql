@@ -101,7 +101,7 @@ BEGIN
     RETURN NULL;
   END IF;
   
-  RETURN ROUND((weight_kg / POWER(height_cm / 100, 2))::DECIMAL, 2);
+  RETURN ROUND((weight_kg / POWER(height_cm / 100, 2))::DECIMAL, 1);
 END;
 $$;
 
@@ -111,7 +111,7 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  NEW.bmi := public.calculate_bmi(NEW.height_cm, NEW.weight_kg);
+  NEW.bmi := public.calculate_bmi(NEW.height, NEW.weight);
   RETURN NEW;
 END;
 $$;

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0iTVU8cAwKE=",
+  "dgSpecHash": "Gs1AT30aW0E=",
   "success": true,
-  "projectFilePath": "/workspace/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
+  "projectFilePath": "/workspace/Server/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj",
   "expectedPackageFiles": [
     "/home/ubuntu/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/home/ubuntu/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
