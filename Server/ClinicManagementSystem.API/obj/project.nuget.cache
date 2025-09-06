@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ut3vcQduvwA=",
+  "dgSpecHash": "lbJLTa1d/K4=",
   "success": true,
-  "projectFilePath": "/workspace/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
+  "projectFilePath": "/workspace/Server/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
   "expectedPackageFiles": [
     "/home/ubuntu/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/home/ubuntu/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

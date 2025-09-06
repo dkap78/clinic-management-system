@@ -28,6 +28,15 @@ CREATE TABLE IF NOT EXISTS public.prescription_templates (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Additional table for client used path `consultation_templates`
+CREATE TABLE IF NOT EXISTS public.consultation_templates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  type TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Medicine database
 CREATE TABLE IF NOT EXISTS public.medicines (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ApnCAi6ELnc=",
+  "dgSpecHash": "eaozzLLBl1M=",
   "success": true,
-  "projectFilePath": "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
+  "projectFilePath": "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
   "expectedPackageFiles": [
     "/home/ubuntu/.nuget/packages/microsoft.aspnetcore.cryptography.internal/8.0.11/microsoft.aspnetcore.cryptography.internal.8.0.11.nupkg.sha512",
     "/home/ubuntu/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/8.0.11/microsoft.aspnetcore.cryptography.keyderivation.8.0.11.nupkg.sha512",

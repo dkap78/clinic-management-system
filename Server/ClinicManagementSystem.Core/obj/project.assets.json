@@ -1114,11 +1114,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
+      "projectUniqueName": "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
       "projectName": "ClinicManagementSystem.Core",
-      "projectPath": "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
+      "projectPath": "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj",
       "packagesPath": "/home/ubuntu/.nuget/packages/",
-      "outputPath": "/workspace/ClinicManagementSystem.Core/obj/",
+      "outputPath": "/workspace/Server/ClinicManagementSystem.Core/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/ubuntu/.nuget/NuGet/NuGet.Config"
@@ -1183,7 +1183,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/ubuntu/.dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

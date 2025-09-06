@@ -1,0 +1,13 @@
+/workspace/Server/ClinicManagementSystem.Core/bin/Release/net8.0/ClinicManagementSystem.Core.deps.json
+/workspace/Server/ClinicManagementSystem.Core/bin/Release/net8.0/ClinicManagementSystem.Core.dll
+/workspace/Server/ClinicManagementSystem.Core/bin/Release/net8.0/ClinicManagementSystem.Core.pdb
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.csproj.AssemblyReference.cache
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.AssemblyInfoInputs.cache
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.AssemblyInfo.cs
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.csproj.CoreCompileInputs.cache
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.sourcelink.json
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.dll
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/refint/ClinicManagementSystem.Core.dll
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ClinicManagementSystem.Core.pdb
+/workspace/Server/ClinicManagementSystem.Core/obj/Release/net8.0/ref/ClinicManagementSystem.Core.dll

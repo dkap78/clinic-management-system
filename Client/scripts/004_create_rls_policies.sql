@@ -60,7 +60,7 @@ CREATE POLICY "Admins can manage all schedules" ON public.doctor_schedules
 -- Patients table policies
 CREATE POLICY "Users can view patients they're associated with" ON public.patients
   FOR SELECT USING (
-    user_id = auth.uid() OR
+    (user_id IS NOT NULL AND user_id = auth.uid()) OR
     EXISTS (
       SELECT 1 FROM public.user_doctor_associations uda
       JOIN public.doctors d ON d.id = uda.doctor_id
@@ -163,6 +163,30 @@ CREATE POLICY "Medical data access" ON public.patient_vitals
     EXISTS (
       SELECT 1 FROM public.users 
       WHERE id = auth.uid() AND role IN ('admin', 'staff')
+    )
+  );
+
+-- Policies for doctor special dates mirror table
+CREATE POLICY "Anyone can view special dates" ON public.doctor_special_dates
+  FOR SELECT USING (true);
+
+CREATE POLICY "Doctors can manage own special dates" ON public.doctor_special_dates
+  FOR ALL USING (
+    doctor_id IN (
+      SELECT id FROM public.doctors WHERE user_id = auth.uid()
+    ) OR EXISTS (
+      SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
+
+-- Policies for consultation_templates (CRUD for doctors and admins)
+CREATE POLICY "Consultation templates read" ON public.consultation_templates
+  FOR SELECT USING (auth.uid() IS NOT NULL);
+
+CREATE POLICY "Consultation templates write" ON public.consultation_templates
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin','doctor')
     )
   );
 

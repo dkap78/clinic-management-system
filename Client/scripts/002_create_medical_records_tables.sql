@@ -22,18 +22,17 @@ CREATE TABLE IF NOT EXISTS public.consultations (
 -- Patient vitals
 CREATE TABLE IF NOT EXISTS public.patient_vitals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  consultation_id UUID NOT NULL REFERENCES public.consultations(id) ON DELETE CASCADE,
+  consultation_id UUID REFERENCES public.consultations(id) ON DELETE SET NULL,
   patient_id UUID NOT NULL REFERENCES public.patients(id) ON DELETE CASCADE,
-  height_cm DECIMAL(5,2),
-  weight_kg DECIMAL(5,2),
-  bmi DECIMAL(4,2),
+  recorded_date DATE DEFAULT CURRENT_DATE,
+  height DECIMAL(5,2),
+  weight DECIMAL(5,2),
+  bmi DECIMAL(4,1),
   systolic_bp INTEGER,
   diastolic_bp INTEGER,
   heart_rate INTEGER,
-  temperature_celsius DECIMAL(4,2),
-  respiratory_rate INTEGER,
+  temperature DECIMAL(4,1),
   oxygen_saturation INTEGER,
-  recorded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   recorded_by UUID NOT NULL REFERENCES public.users(id)
 );
 
@@ -41,18 +40,14 @@ CREATE TABLE IF NOT EXISTS public.patient_vitals (
 CREATE TABLE IF NOT EXISTS public.lab_reports (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   patient_id UUID NOT NULL REFERENCES public.patients(id) ON DELETE CASCADE,
-  consultation_id UUID REFERENCES public.consultations(id) ON DELETE SET NULL,
-  report_type TEXT NOT NULL,
-  report_name TEXT NOT NULL,
+  test_name TEXT NOT NULL,
   test_date DATE NOT NULL,
-  report_file_url TEXT,
-  results JSONB, -- Store structured lab results
-  normal_ranges JSONB, -- Store normal ranges for comparison
-  interpretation TEXT,
-  lab_name TEXT,
-  technician_name TEXT,
-  doctor_id UUID REFERENCES public.doctors(id),
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'reviewed')),
+  test_type TEXT NOT NULL,
+  results TEXT,
+  reference_range TEXT,
+  notes TEXT,
+  ordered_by_doctor_id UUID REFERENCES public.doctors(id),
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'normal', 'abnormal')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

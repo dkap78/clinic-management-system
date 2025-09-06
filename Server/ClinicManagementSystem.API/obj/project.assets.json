@@ -5344,11 +5344,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspace/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
+      "projectUniqueName": "/workspace/Server/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
       "projectName": "ClinicManagementSystem.API",
-      "projectPath": "/workspace/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
+      "projectPath": "/workspace/Server/ClinicManagementSystem.API/ClinicManagementSystem.API.csproj",
       "packagesPath": "/home/ubuntu/.nuget/packages/",
-      "outputPath": "/workspace/ClinicManagementSystem.API/obj/",
+      "outputPath": "/workspace/Server/ClinicManagementSystem.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/ubuntu/.nuget/NuGet/NuGet.Config"
@@ -5363,11 +5363,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj": {
-              "projectPath": "/workspace/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj"
+            "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj": {
+              "projectPath": "/workspace/Server/ClinicManagementSystem.Core/ClinicManagementSystem.Core.csproj"
             },
-            "/workspace/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj": {
-              "projectPath": "/workspace/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj"
+            "/workspace/Server/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj": {
+              "projectPath": "/workspace/Server/ClinicManagementSystem.Infrastructure/ClinicManagementSystem.Infrastructure.csproj"
             }
           }
         }
@@ -5435,7 +5435,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/ubuntu/.dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.413/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
