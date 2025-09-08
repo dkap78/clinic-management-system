@@ -304,7 +304,7 @@ export default function DoctorAvailabilityPage() {
                   <SelectContent>
                     {doctors.map((doctor) => (
                       <SelectItem key={doctor.id} value={doctor.id}>
-                        Dr. {doctor.users.full_name} - {doctor.specialization}
+                        Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
                       </SelectItem>
                     ))}
                   </SelectContent>
