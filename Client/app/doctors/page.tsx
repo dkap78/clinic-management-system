@@ -40,12 +40,14 @@ export default function DoctorsPage() {
           .select(`
             id,
             user_id,
+            first_name,
+            last_name,
+            email,
             specialization,
             license_number,
             phone,
             is_available,
             consultation_fee,
-            users!inner(full_name, email)
           `)
           .order("users(full_name)")
 
@@ -73,7 +75,7 @@ export default function DoctorsPage() {
   useEffect(() => {
     const filtered = doctors.filter(
       (doctor) =>
-        doctor.users.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        `${doctor.first_name} ${doctor.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
         doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     setFilteredDoctors(filtered)

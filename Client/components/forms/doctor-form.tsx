@@ -72,6 +72,9 @@ export default function DoctorForm({ doctorId, initialData }: DoctorFormProps) {
         const { error: updateError } = await supabase
           .from("doctors")
           .update({
+            first_name: formData.full_name.split(' ')[0] || formData.full_name,
+            last_name: formData.full_name.split(' ').slice(1).join(' ') || '',
+            email: formData.email,
             specialization: formData.specialization,
             license_number: formData.license_number,
             phone: formData.phone,
@@ -123,6 +126,9 @@ export default function DoctorForm({ doctorId, initialData }: DoctorFormProps) {
           // Create doctor record
           const { error: doctorError } = await supabase.from("doctors").insert({
             user_id: authData.user.id,
+            first_name: formData.full_name.split(' ')[0] || formData.full_name,
+            last_name: formData.full_name.split(' ').slice(1).join(' ') || '',
+            email: formData.email,
             specialization: formData.specialization,
             license_number: formData.license_number,
             phone: formData.phone,
