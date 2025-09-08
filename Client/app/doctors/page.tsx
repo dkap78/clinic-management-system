@@ -164,7 +164,7 @@ export default function DoctorsPage() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-lg">Dr. {doctor.users.full_name}</CardTitle>
+                      <CardTitle className="text-lg">Dr. {doctor.first_name} {doctor.last_name}</CardTitle>
                       <CardDescription className="font-medium text-blue-600">{doctor.specialization}</CardDescription>
                     </div>
                     <Badge variant={doctor.is_available ? "default" : "secondary"}>
@@ -175,7 +175,7 @@ export default function DoctorsPage() {
                 <CardContent className="space-y-3">
                   <div className="flex items-center text-sm text-gray-600">
                     <Mail className="h-4 w-4 mr-2" />
-                    {doctor.users.email}
+                    {doctor.email}
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
                     <Phone className="h-4 w-4 mr-2" />

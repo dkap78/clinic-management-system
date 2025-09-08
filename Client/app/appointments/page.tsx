@@ -272,7 +272,7 @@ export default function AppointmentsPage() {
                         <div className="flex items-center text-sm text-gray-600 space-x-4">
                           <div className="flex items-center">
                             <Stethoscope className="h-4 w-4 mr-1" />
-                            Dr. {appointment.doctors.users.full_name}
+                            Dr. {appointment.doctors.first_name} {appointment.doctors.last_name}
                           </div>
                           <div className="flex items-center">
                             <Calendar className="h-4 w-4 mr-1" />

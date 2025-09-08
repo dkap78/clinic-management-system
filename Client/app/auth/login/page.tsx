@@ -154,7 +154,7 @@ export default function LoginPage() {
                       <SelectContent>
                         {doctors.length === 0 && !loadingDoctors ? (
                           <SelectItem value="none" disabled>
-                            Database not initialized - run SQL scripts
+                            Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
                           </SelectItem>
                         ) : (
                           doctors.map((doctor) => (

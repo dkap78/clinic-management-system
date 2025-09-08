@@ -237,7 +237,7 @@ export default function ConsultationPage() {
                                 <span className="flex items-center">
                                   <Stethoscope className="h-4 w-4 mr-1" />
                                   Dr. {appointment.doctors.users.full_name}
-                                </span>
+                                Dr. {appointment.doctors.first_name} {appointment.doctors.last_name}
                               </div>
                             </div>
                           </div>
