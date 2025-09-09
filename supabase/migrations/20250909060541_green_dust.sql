@@ -252,7 +252,8 @@ CREATE TABLE IF NOT EXISTS public.diagnosis_templates (
   created_by UUID REFERENCES public.users(id),
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(name, category)
 );
 
 -- Prescription templates
@@ -265,7 +266,8 @@ CREATE TABLE IF NOT EXISTS public.prescription_templates (
   created_by UUID REFERENCES public.users(id),
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(name, category)
 );
 
 -- Consultation templates
@@ -277,13 +279,14 @@ CREATE TABLE IF NOT EXISTS public.consultation_templates (
   created_by UUID REFERENCES public.users(id),
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(name, type)
 );
 
 -- Medicines database
 CREATE TABLE IF NOT EXISTS public.medicines (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name TEXT NOT NULL,
+  name TEXT UNIQUE NOT NULL,
   generic_name TEXT,
   category TEXT NOT NULL,
   dosage_forms TEXT[],
@@ -767,8 +770,7 @@ INSERT INTO public.users (id, email, full_name, role, phone) VALUES
 ('22222222-2222-2222-2222-222222222222', 'dr.smith@clinic.com', 'Dr. John Smith', 'doctor', '+1-555-0002'),
 ('33333333-3333-3333-3333-333333333333', 'dr.johnson@clinic.com', 'Dr. Sarah Johnson', 'doctor', '+1-555-0003'),
 ('44444444-4444-4444-4444-444444444444', 'dr.williams@clinic.com', 'Dr. Michael Williams', 'doctor', '+1-555-0004'),
-('55555555-5555-5555-5555-555555555555', 'nurse.mary@clinic.com', 'Mary Wilson', 'nurse', '+1-555-0005'),
-('66666666-6666-6666-6666-666666666666', 'staff.jane@clinic.com', 'Jane Davis', 'receptionist', '+1-555-0006')
+('55555555-5555-5555-5555-555555555555', 'nurse.mary@clinic.com', 'Mary Wilson', 'nurse', '+1-555-0005')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample doctors with complete information
@@ -783,8 +785,8 @@ INSERT INTO public.patients (id, first_name, last_name, email, phone, date_of_bi
 ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'Alice', 'Brown', 'alice.brown@email.com', '+1-555-1001', '1985-03-15', 'Female', '123 Oak Street, Springfield, IL 62701', 'Bob Brown', '+1-555-1002', 'A+', 'No significant medical history', 'Penicillin allergy', 'Multivitamin daily'),
 ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Robert', 'Davis', 'robert.davis@email.com', '+1-555-1003', '1978-07-22', 'Male', '456 Pine Avenue, Springfield, IL 62702', 'Linda Davis', '+1-555-1004', 'O-', 'Hypertension, Type 2 Diabetes', 'No known allergies', 'Lisinopril 10mg daily, Metformin 500mg twice daily'),
 ('ffffffff-ffff-ffff-ffff-ffffffffffff', 'Emily', 'Wilson', 'emily.wilson@email.com', '+1-555-1005', '1992-11-08', 'Female', '789 Maple Drive, Springfield, IL 62703', 'James Wilson', '+1-555-1006', 'B+', 'Asthma', 'Shellfish allergy', 'Albuterol inhaler as needed'),
-('gggggggg-gggg-gggg-gggg-gggggggggggg', 'David', 'Miller', 'david.miller@email.com', '+1-555-1007', '1965-12-03', 'Male', '321 Elm Street, Springfield, IL 62704', 'Susan Miller', '+1-555-1008', 'AB+', 'Coronary artery disease, High cholesterol', 'Aspirin allergy', 'Atorvastatin 40mg daily, Clopidogrel 75mg daily'),
-('hhhhhhhh-hhhh-hhhh-hhhh-hhhhhhhhhhhh', 'Jennifer', 'Taylor', 'jennifer.taylor@email.com', '+1-555-1009', '1988-05-17', 'Female', '654 Cedar Lane, Springfield, IL 62705', 'Mark Taylor', '+1-555-1010', 'O+', 'Migraine headaches', 'No known allergies', 'Sumatriptan as needed for migraines')
+('abababab-abab-abab-abab-abababababab', 'David', 'Miller', 'david.miller@email.com', '+1-555-1007', '1965-12-03', 'Male', '321 Elm Street, Springfield, IL 62704', 'Susan Miller', '+1-555-1008', 'AB+', 'Coronary artery disease, High cholesterol', 'Aspirin allergy', 'Atorvastatin 40mg daily, Clopidogrel 75mg daily'),
+('cdcdcdcd-cdcd-cdcd-cdcd-cdcdcdcdcdcd', 'Jennifer', 'Taylor', 'jennifer.taylor@email.com', '+1-555-1009', '1988-05-17', 'Female', '654 Cedar Lane, Springfield, IL 62705', 'Mark Taylor', '+1-555-1010', 'O+', 'Migraine headaches', 'No known allergies', 'Sumatriptan as needed for migraines')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample doctor availability
@@ -807,39 +809,39 @@ ON CONFLICT (doctor_id, day_of_week) DO NOTHING;
 
 -- Sample appointments
 INSERT INTO public.appointments (id, patient_id, doctor_id, appointment_date, appointment_time, type, status, notes) VALUES
-('iiiiiiii-iiii-iiii-iiii-iiiiiiiiiiii', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE, '10:00', 'offline', 'scheduled', 'Annual checkup'),
-('jjjjjjjj-jjjj-jjjj-jjjj-jjjjjjjjjjjj', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', CURRENT_DATE + INTERVAL '1 day', '14:00', 'offline', 'confirmed', 'Cardiology follow-up'),
-('kkkkkkkk-kkkk-kkkk-kkkk-kkkkkkkkkkkk', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE + INTERVAL '2 days', '11:30', 'online', 'scheduled', 'Asthma management'),
-('llllllll-llll-llll-llll-llllllllllll', 'gggggggg-gggg-gggg-gggg-gggggggggggg', 'cccccccc-cccc-cccc-cccc-cccccccccccc', CURRENT_DATE + INTERVAL '3 days', '15:00', 'offline', 'scheduled', 'Knee pain evaluation'),
-('mmmmmmmm-mmmm-mmmm-mmmm-mmmmmmmmmmmm', 'hhhhhhhh-hhhh-hhhh-hhhh-hhhhhhhhhhhh', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE + INTERVAL '4 days', '09:30', 'offline', 'confirmed', 'Migraine consultation')
+('acacacac-acac-acac-acac-acacacacacac', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE, '10:00', 'offline', 'scheduled', 'Annual checkup'),
+('adadadad-adad-adad-adad-adadadadadad', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', CURRENT_DATE + INTERVAL '1 day', '14:00', 'offline', 'confirmed', 'Cardiology follow-up'),
+('aeaeaeae-aeae-aeae-aeae-aeaeaeaeaeae', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE + INTERVAL '2 days', '11:30', 'online', 'scheduled', 'Asthma management'),
+('afafafaf-afaf-afaf-afaf-afafafafafaf', 'abababab-abab-abab-abab-abababababab', 'cccccccc-cccc-cccc-cccc-cccccccccccc', CURRENT_DATE + INTERVAL '3 days', '15:00', 'offline', 'scheduled', 'Knee pain evaluation'),
+('babaabab-baba-baba-baba-bababababaab', 'cdcdcdcd-cdcd-cdcd-cdcd-cdcdcdcdcdcd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE + INTERVAL '4 days', '09:30', 'offline', 'confirmed', 'Migraine consultation')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample medical records
 INSERT INTO public.medical_records (id, patient_id, doctor_id, visit_date, visit_type, chief_complaint, diagnosis, treatment_plan, medications_prescribed) VALUES
-('nnnnnnnn-nnnn-nnnn-nnnn-nnnnnnnnnnnn', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE - INTERVAL '30 days', 'Regular Checkup', 'Routine annual physical examination', 'Healthy adult - no acute findings', 'Continue current lifestyle, annual follow-up', 'Multivitamin daily'),
-('oooooooo-oooo-oooo-oooo-oooooooooooo', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', CURRENT_DATE - INTERVAL '15 days', 'Follow-up', 'Blood pressure check', 'Hypertension - well controlled', 'Continue current medications, lifestyle modifications', 'Lisinopril 10mg daily'),
-('pppppppp-pppp-pppp-pppp-pppppppppppp', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE - INTERVAL '7 days', 'Consultation', 'Shortness of breath', 'Asthma exacerbation', 'Increase inhaler use, avoid triggers', 'Albuterol inhaler 2 puffs every 4-6 hours as needed')
+('bcbcbcbc-bcbc-bcbc-bcbc-bcbcbcbcbcbc', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE - INTERVAL '30 days', 'Regular Checkup', 'Routine annual physical examination', 'Healthy adult - no acute findings', 'Continue current lifestyle, annual follow-up', 'Multivitamin daily'),
+('bdbdbdbd-bdbd-bdbd-bdbd-bdbdbdbdbdbd', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', CURRENT_DATE - INTERVAL '15 days', 'Follow-up', 'Blood pressure check', 'Hypertension - well controlled', 'Continue current medications, lifestyle modifications', 'Lisinopril 10mg daily'),
+('bebebebe-bebe-bebe-bebe-bebebebebebe', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', CURRENT_DATE - INTERVAL '7 days', 'Consultation', 'Shortness of breath', 'Asthma exacerbation', 'Increase inhaler use, avoid triggers', 'Albuterol inhaler 2 puffs every 4-6 hours as needed')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample patient vitals
 INSERT INTO public.patient_vitals (id, patient_id, recorded_date, height, weight, systolic_bp, diastolic_bp, heart_rate, temperature, oxygen_saturation, recorded_by) VALUES
-('qqqqqqqq-qqqq-qqqq-qqqq-qqqqqqqqqqqq', 'dddddddd-dddd-dddd-dddd-dddddddddddd', CURRENT_DATE, 165.0, 68.5, 120, 80, 72, 36.5, 98, '22222222-2222-2222-2222-222222222222'),
-('rrrrrrrr-rrrr-rrrr-rrrr-rrrrrrrrrrrr', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', CURRENT_DATE - INTERVAL '1 day', 175.0, 82.0, 135, 85, 78, 36.8, 97, '33333333-3333-3333-3333-333333333333'),
-('ssssssss-ssss-ssss-ssss-ssssssssssss', 'ffffffff-ffff-ffff-ffff-ffffffffffff', CURRENT_DATE - INTERVAL '2 days', 160.0, 55.0, 110, 70, 88, 37.2, 95, '22222222-2222-2222-2222-222222222222')
+('bfbfbfbf-bfbf-bfbf-bfbf-bfbfbfbfbfbf', 'dddddddd-dddd-dddd-dddd-dddddddddddd', CURRENT_DATE, 165.0, 68.5, 120, 80, 72, 36.5, 98, '22222222-2222-2222-2222-222222222222'),
+('cacacaca-caca-caca-caca-cacacacacaca', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', CURRENT_DATE - INTERVAL '1 day', 175.0, 82.0, 135, 85, 78, 36.8, 97, '33333333-3333-3333-3333-333333333333'),
+('cbcbcbcb-cbcb-cbcb-cbcb-cbcbcbcbcbcb', 'ffffffff-ffff-ffff-ffff-ffffffffffff', CURRENT_DATE - INTERVAL '2 days', 160.0, 55.0, 110, 70, 88, 37.2, 95, '22222222-2222-2222-2222-222222222222')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample lab reports
 INSERT INTO public.lab_reports (id, patient_id, test_name, test_date, test_type, results, reference_range, status, ordered_by_doctor_id) VALUES
-('tttttttt-tttt-tttt-tttt-tttttttttttt', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'Complete Blood Count', CURRENT_DATE - INTERVAL '5 days', 'Blood Test', 'WBC: 7.2, RBC: 4.5, Hemoglobin: 13.8, Platelets: 250', 'WBC: 4.0-11.0, RBC: 4.2-5.4, Hemoglobin: 12.0-15.5, Platelets: 150-450', 'normal', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
-('uuuuuuuu-uuuu-uuuu-uuuu-uuuuuuuuuuuu', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Lipid Panel', CURRENT_DATE - INTERVAL '10 days', 'Blood Test', 'Total Cholesterol: 220, LDL: 140, HDL: 45, Triglycerides: 180', 'Total: <200, LDL: <100, HDL: >40, Triglycerides: <150', 'abnormal', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
-('vvvvvvvv-vvvv-vvvv-vvvv-vvvvvvvvvvvv', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'Chest X-Ray', CURRENT_DATE - INTERVAL '3 days', 'X-Ray', 'Clear lung fields, normal heart size', 'Normal chest X-ray', 'normal', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+('cdcdcdcd-cdcd-cdcd-cdcd-cdcdcdcdcdcd', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'Complete Blood Count', CURRENT_DATE - INTERVAL '5 days', 'Blood Test', 'WBC: 7.2, RBC: 4.5, Hemoglobin: 13.8, Platelets: 250', 'WBC: 4.0-11.0, RBC: 4.2-5.4, Hemoglobin: 12.0-15.5, Platelets: 150-450', 'normal', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
+('cececece-cece-cece-cece-cececececece', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'Lipid Panel', CURRENT_DATE - INTERVAL '10 days', 'Blood Test', 'Total Cholesterol: 220, LDL: 140, HDL: 45, Triglycerides: 180', 'Total: <200, LDL: <100, HDL: >40, Triglycerides: <150', 'abnormal', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+('cfcfcfcf-cfcf-cfcf-cfcf-cfcfcfcfcfcf', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'Chest X-Ray', CURRENT_DATE - INTERVAL '3 days', 'X-Ray', 'Clear lung fields, normal heart size', 'Normal chest X-ray', 'normal', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample prescriptions
 INSERT INTO public.prescriptions (id, patient_id, doctor_id, medical_record_id, medication_name, dosage, frequency, duration, instructions, status) VALUES
-('wwwwwwww-wwww-wwww-wwww-wwwwwwwwwwww', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'oooooooo-oooo-oooo-oooo-oooooooooooo', 'Lisinopril', '10mg', 'Once daily', '30 days', 'Take in the morning with or without food', 'active'),
-('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'pppppppp-pppp-pppp-pppp-pppppppppppp', 'Albuterol Inhaler', '90mcg', 'As needed', '30 days', '2 puffs every 4-6 hours as needed for shortness of breath', 'active'),
-('yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'nnnnnnnn-nnnn-nnnn-nnnn-nnnnnnnnnnnn', 'Multivitamin', '1 tablet', 'Once daily', '90 days', 'Take with breakfast', 'active')
+('dadadada-dada-dada-dada-dadadadadada', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'bcbcbcbc-bcbc-bcbc-bcbc-bcbcbcbcbcbc', 'Lisinopril', '10mg', 'Once daily', '30 days', 'Take in the morning with or without food', 'active'),
+('dbdbdbdb-dbdb-dbdb-dbdb-dbdbdbdbdbdb', 'ffffffff-ffff-ffff-ffff-ffffffffffff', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bdbdbdbd-bdbd-bdbd-bdbd-bdbdbdbdbdbd', 'Albuterol Inhaler', '90mcg', 'As needed', '30 days', '2 puffs every 4-6 hours as needed for shortness of breath', 'active'),
+('dcdcdcdc-dcdc-dcdc-dcdc-dcdcdcdcdcdc', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bebebebe-bebe-bebe-bebe-bebebebebebe', 'Multivitamin', '1 tablet', 'Once daily', '90 days', 'Take with breakfast', 'active')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample user-doctor associations
