@@ -37,11 +37,6 @@ interface Appointment {
   type: string
   notes: string
   patients: Patient
-  doctors: {
-    first_name: string
-    last_name: string
-    specialization: string
-  }
 }
 
 interface MedicalRecord {
@@ -129,7 +124,8 @@ export default function ConsultationDetailPage() {
           status,
           type,
           notes,
-          patients!inner(*)
+          patients!inner(*),
+          doctors!inner(first_name, last_name, specialization)
         `)
         .eq("id", appointmentId)
         .single()

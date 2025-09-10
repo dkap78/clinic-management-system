@@ -19,6 +19,8 @@ interface Template {
   name: string
   type: string
   content: string
+  created_by?: string
+  is_active?: boolean
   created_at: string
 }
 
