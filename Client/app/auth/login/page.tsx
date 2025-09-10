@@ -15,10 +15,9 @@ import { useState, useEffect } from "react"
 interface Doctor {
   id: string
   user_id: string
+  first_name: string
+  last_name: string
   specialization: string
-  users: {
-    full_name: string
-  }
 }
 
 export default function LoginPage() {
@@ -40,8 +39,10 @@ export default function LoginPage() {
           .select(`
             id,
             user_id,
+            first_name,
+            last_name,
             specialization,
-            users!inner(full_name)
+            is_available
           `)
           .eq("is_available", true)
 
@@ -159,7 +160,7 @@ export default function LoginPage() {
                         ) : (
                           doctors.map((doctor) => (
                             <SelectItem key={doctor.id} value={doctor.id}>
-                              Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
+                              Dr. {doctor.first_name} {doctor.last_name} — {doctor.specialization}
                             </SelectItem>
                           ))
                         )}
