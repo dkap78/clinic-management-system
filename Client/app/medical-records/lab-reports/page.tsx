@@ -363,7 +363,7 @@ export default function LabReportsPage() {
                       <SelectContent>
                         {doctors.map((doctor) => (
                           <SelectItem key={doctor.id} value={doctor.id}>
-                            Dr. {doctor.users.full_name}
+                            Dr. {doctor.first_name} {doctor.last_name}
                           </SelectItem>
                         ))}
                       </SelectContent>
