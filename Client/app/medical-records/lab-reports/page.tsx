@@ -453,7 +453,7 @@ export default function LabReportsPage() {
                             {report.doctors && (
                               <span className="flex items-center">
                                 <User className="h-4 w-4 mr-1" />
-                                Dr. {report.doctors.users.full_name}
+                                Dr. {report.doctors.first_name} {report.doctors.last_name}
                               </span>
                             )}
                           </CardDescription>

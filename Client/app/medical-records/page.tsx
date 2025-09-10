@@ -30,8 +30,9 @@ interface MedicalRecord {
   treatment_plan: string
   patients: Patient
   doctors: {
-    first_name: string
-    last_name: string
+    users: {
+      full_name: string
+    }
   }
 }
 
@@ -95,8 +96,7 @@ export default function MedicalRecordsPage() {
           treatment_plan,
           patients!inner(id, first_name, last_name, email, phone, date_of_birth, blood_group),
           doctors!inner(
-            first_name,
-            last_name
+            users!inner(full_name)
           )
         `)
         .eq("patient_id", selectedPatientId)

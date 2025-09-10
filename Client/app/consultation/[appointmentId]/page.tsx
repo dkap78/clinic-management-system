@@ -37,6 +37,11 @@ interface Appointment {
   type: string
   notes: string
   patients: Patient
+  doctors: {
+    first_name: string
+    last_name: string
+    specialization: string
+  }
 }
 
 interface MedicalRecord {
