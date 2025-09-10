@@ -74,8 +74,9 @@ export default function AppointmentsPage() {
             created_at,
             patients!inner(first_name, last_name, phone),
             doctors!inner(
-              specialization,
-              users!inner(full_name)
+              first_name,
+              last_name,
+              specialization
             )
           `)
           .order("appointment_date", { ascending: true })

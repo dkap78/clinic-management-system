@@ -154,12 +154,12 @@ export default function LoginPage() {
                       <SelectContent>
                         {doctors.length === 0 && !loadingDoctors ? (
                           <SelectItem value="none" disabled>
-                            Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
+                            No doctors available
                           </SelectItem>
                         ) : (
                           doctors.map((doctor) => (
                             <SelectItem key={doctor.id} value={doctor.id}>
-                              Dr. {doctor.users.full_name} - {doctor.specialization}
+                              Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
                             </SelectItem>
                           ))
                         )}

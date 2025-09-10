@@ -250,7 +250,7 @@ export default function CalendarPage() {
                               <div
                                 key={appointment.id}
                                 className="text-xs p-1 rounded cursor-pointer hover:opacity-80"
-                                title={`${appointment.patients.first_name} ${appointment.patients.last_name} - Dr. ${appointment.doctors.users.full_name} at ${formatTime(appointment.appointment_time)}`}
+                                title={`${appointment.patients.first_name} ${appointment.patients.last_name} - Dr. ${appointment.doctors.first_name} ${appointment.doctors.last_name} at ${formatTime(appointment.appointment_time)}`}
                               >
                                 <Badge
                                   className={`${statusColors[appointment.status as keyof typeof statusColors]} text-xs px-1 py-0`}
