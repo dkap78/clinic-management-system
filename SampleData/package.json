@@ -1,0 +1,15 @@
+{
+  "name": "sampledata",
+  "version": "1.0.0",
+  "description": "SeedUsers",
+  "main": "seedUsers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Deep",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "dotenv": "^17.2.2"
+  }
+}

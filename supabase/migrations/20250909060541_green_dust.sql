@@ -615,18 +615,18 @@ ON CONFLICT (name, type) DO NOTHING;
 -- Sample users (these will be created when users sign up through Supabase Auth)
 -- Note: These are placeholder UUIDs for demonstration. In real usage, these would be created by Supabase Auth
 INSERT INTO public.users (id, email, full_name, role, phone) VALUES
-('11111111-1111-1111-1111-111111111111', 'admin@clinic.com', 'System Administrator', 'admin', '+1-555-0001'),
-('22222222-2222-2222-2222-222222222222', 'dr.smith@clinic.com', 'Dr. John Smith', 'doctor', '+1-555-0002'),
-('33333333-3333-3333-3333-333333333333', 'dr.johnson@clinic.com', 'Dr. Sarah Johnson', 'doctor', '+1-555-0003'),
-('44444444-4444-4444-4444-444444444444', 'dr.williams@clinic.com', 'Dr. Michael Williams', 'doctor', '+1-555-0004'),
-('55555555-5555-5555-5555-555555555555', 'nurse.mary@clinic.com', 'Mary Wilson', 'nurse', '+1-555-0005')
+('c3479d2d-6506-40ec-8f5e-201cd70c4bc6', 'admin@clinic.com', 'System Administrator', 'admin', '+1-555-0001'),
+('cbae1b7a-9503-4ebe-bc3b-9a001c25bcfe', 'dr.smith@clinic.com', 'Dr. John Smith', 'doctor', '+1-555-0002'),
+('868d1466-8638-4e2f-b9ef-680ea453cb85', 'dr.johnson@clinic.com', 'Dr. Sarah Johnson', 'doctor', '+1-555-0003'),
+('6b28cdbc-7e72-4c11-89a7-9a08670ebc46', 'dr.williams@clinic.com', 'Dr. Michael Williams', 'doctor', '+1-555-0004'),
+('7d995a6b-ed9f-4cb0-bd29-0c2bdcbdb652', 'nurse.mary@clinic.com', 'Mary Wilson', 'nurse', '+1-555-0005')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample doctors with complete information
 INSERT INTO public.doctors (id, user_id, first_name, last_name, specialization, license_number, phone, email, qualification, experience_years, consultation_fee, bio, education) VALUES
-('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'John', 'Smith', 'General Medicine', 'MD-001-2024', '+1-555-0002', 'dr.smith@clinic.com', 'MD', 15, 150.00, 'Experienced general practitioner with expertise in family medicine and preventive care.', 'MD from Harvard Medical School, Residency at Johns Hopkins'),
-('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '33333333-3333-3333-3333-333333333333', 'Sarah', 'Johnson', 'Cardiology', 'MD-002-2024', '+1-555-0003', 'dr.johnson@clinic.com', 'MD, FACC', 12, 250.00, 'Board-certified cardiologist specializing in interventional cardiology and heart disease prevention.', 'MD from Stanford University, Cardiology Fellowship at Mayo Clinic'),
-('cccccccc-cccc-cccc-cccc-cccccccccccc', '44444444-4444-4444-4444-444444444444', 'Michael', 'Williams', 'Orthopedics', 'MD-003-2024', '+1-555-0004', 'dr.williams@clinic.com', 'MD, FAAOS', 18, 300.00, 'Orthopedic surgeon with expertise in sports medicine and joint replacement surgery.', 'MD from UCLA, Orthopedic Surgery Residency at Hospital for Special Surgery')
+('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cbae1b7a-9503-4ebe-bc3b-9a001c25bcfe', 'John', 'Smith', 'General Medicine', 'MD-001-2024', '+1-555-0002', 'dr.smith@clinic.com', 'MD', 15, 150.00, 'Experienced general practitioner with expertise in family medicine and preventive care.', 'MD from Harvard Medical School, Residency at Johns Hopkins'),
+('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '868d1466-8638-4e2f-b9ef-680ea453cb85', 'Sarah', 'Johnson', 'Cardiology', 'MD-002-2024', '+1-555-0003', 'dr.johnson@clinic.com', 'MD, FACC', 12, 250.00, 'Board-certified cardiologist specializing in interventional cardiology and heart disease prevention.', 'MD from Stanford University, Cardiology Fellowship at Mayo Clinic'),
+('cccccccc-cccc-cccc-cccc-cccccccccccc', '6b28cdbc-7e72-4c11-89a7-9a08670ebc46', 'Michael', 'Williams', 'Orthopedics', 'MD-003-2024', '+1-555-0004', 'dr.williams@clinic.com', 'MD, FAAOS', 18, 300.00, 'Orthopedic surgeon with expertise in sports medicine and joint replacement surgery.', 'MD from UCLA, Orthopedic Surgery Residency at Hospital for Special Surgery')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample patients
@@ -674,9 +674,9 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Sample patient vitals
 INSERT INTO public.patient_vitals (id, patient_id, recorded_date, height, weight, systolic_bp, diastolic_bp, heart_rate, temperature, oxygen_saturation, recorded_by) VALUES
-('bfbfbfbf-bfbf-bfbf-bfbf-bfbfbfbfbfbf', 'dddddddd-dddd-dddd-dddd-dddddddddddd', CURRENT_DATE, 165.0, 68.5, 120, 80, 72, 36.5, 98, '22222222-2222-2222-2222-222222222222'),
-('cacacaca-caca-caca-caca-cacacacacaca', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', CURRENT_DATE - INTERVAL '1 day', 175.0, 82.0, 135, 85, 78, 36.8, 97, '33333333-3333-3333-3333-333333333333'),
-('cbcbcbcb-cbcb-cbcb-cbcb-cbcbcbcbcbcb', 'ffffffff-ffff-ffff-ffff-ffffffffffff', CURRENT_DATE - INTERVAL '2 days', 160.0, 55.0, 110, 70, 88, 37.2, 95, '22222222-2222-2222-2222-222222222222')
+('bfbfbfbf-bfbf-bfbf-bfbf-bfbfbfbfbfbf', 'dddddddd-dddd-dddd-dddd-dddddddddddd', CURRENT_DATE, 165.0, 68.5, 120, 80, 72, 36.5, 98, 'cbae1b7a-9503-4ebe-bc3b-9a001c25bcfe'),
+('cacacaca-caca-caca-caca-cacacacacaca', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', CURRENT_DATE - INTERVAL '1 day', 175.0, 82.0, 135, 85, 78, 36.8, 97, '868d1466-8638-4e2f-b9ef-680ea453cb85'),
+('cbcbcbcb-cbcb-cbcb-cbcb-cbcbcbcbcbcb', 'ffffffff-ffff-ffff-ffff-ffffffffffff', CURRENT_DATE - INTERVAL '2 days', 160.0, 55.0, 110, 70, 88, 37.2, 95, 'cbae1b7a-9503-4ebe-bc3b-9a001c25bcfe')
 ON CONFLICT (id) DO NOTHING;
 
 -- Sample lab reports
@@ -695,9 +695,9 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Sample user-doctor associations
 INSERT INTO public.user_doctor_associations (user_id, doctor_id) VALUES
-('22222222-2222-2222-2222-222222222222', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
-('33333333-3333-3333-3333-333333333333', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
-('44444444-4444-4444-4444-444444444444', 'cccccccc-cccc-cccc-cccc-cccccccccccc'),
-('55555555-5555-5555-5555-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
-('55555555-5555-5555-5555-555555555555', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
+('cbae1b7a-9503-4ebe-bc3b-9a001c25bcfe', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
+('868d1466-8638-4e2f-b9ef-680ea453cb85', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+('6b28cdbc-7e72-4c11-89a7-9a08670ebc46', 'cccccccc-cccc-cccc-cccc-cccccccccccc'),
+('7d995a6b-ed9f-4cb0-bd29-0c2bdcbdb652', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
+('7d995a6b-ed9f-4cb0-bd29-0c2bdcbdb652', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
 ON CONFLICT (user_id, doctor_id) DO NOTHING;
