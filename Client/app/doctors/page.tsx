@@ -13,15 +13,14 @@ import DashboardLayout from "@/components/layout/dashboard-layout"
 interface Doctor {
   id: string
   user_id: string
+  first_name: string
+  last_name: string
+  email: string
   specialization: string
   license_number: string
   phone: string
   is_available: boolean
   consultation_fee: number
-  users: {
-    full_name: string
-    email: string
-  }
 }
 
 export default function DoctorsPage() {
@@ -47,9 +46,9 @@ export default function DoctorsPage() {
             license_number,
             phone,
             is_available,
-            consultation_fee,
+            consultation_fee
           `)
-          .order("users(full_name)")
+          .order("first_name")
 
         if (error) {
           if (error.message.includes("does not exist") || error.message.includes("schema cache")) {
