@@ -17,6 +17,9 @@ interface Doctor {
   phone: string
   is_available: boolean
   consultation_fee: number
+  education: string
+  qualification: string
+  exprience_years: number
 }
 
 export default function DoctorDetailPage() {
@@ -58,8 +61,8 @@ export default function DoctorDetailPage() {
     <DashboardLayout>
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Add New Doctor</h1>
-          <p className="text-gray-600">Create a new doctor profile in the system</p>
+          <h1 className="text-3xl font-bold text-gray-900">Doctor Detail</h1>
+          <p className="text-gray-600">Update doctor profile in the system</p>
         </div>
         {isLoading ? (
             <div>Loading Doctor Detail, Please Wait...</div>

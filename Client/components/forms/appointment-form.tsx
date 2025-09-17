@@ -24,10 +24,9 @@ interface Patient {
 interface Doctor {
   id: string
   user_id: string
+  first_name: string
+  last_name: string
   specialization: string
-  users: {
-    full_name: string
-  }
 }
 
 interface DoctorAvailability {
@@ -82,11 +81,12 @@ export default function AppointmentForm({ appointmentId, initialData }: Appointm
           .select(`
             id,
             user_id,
-            specialization,
-            users!inner(full_name)
+            first_name,
+            last_name,
+            specialization
           `)
           .eq("is_available", true)
-          .order("users(full_name)")
+          .order("first_name")
 
         if (doctorsError && !doctorsError.message.includes("does not exist")) {
           throw doctorsError
@@ -331,7 +331,7 @@ export default function AppointmentForm({ appointmentId, initialData }: Appointm
             <div className="space-y-2">
               <Label htmlFor="appointment_time">Appointment Time</Label>
               <Select
-                value={formData.appointment_time}
+                value={formData.appointment_time.toString().substring(0,5)}
                 onValueChange={(value) => handleInputChange("appointment_time", value)}
                 disabled={!formData.doctor_id || !formData.appointment_date}
               >

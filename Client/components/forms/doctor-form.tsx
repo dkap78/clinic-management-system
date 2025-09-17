@@ -43,8 +43,8 @@ interface DoctorFormProps {
 
 export default function DoctorForm({ doctorId, initialData }: DoctorFormProps) {
   const [formData, setFormData] = useState({
-    full_name: initialData?.users?.full_name || "",
-    email: initialData?.users?.email || "",
+    full_name: (initialData?.first_name || "") + " " + (initialData?.last_name || ""),
+    email: initialData?.email || "",
     password: "",
     specialization: initialData?.specialization || "",
     license_number: initialData?.license_number || "",
