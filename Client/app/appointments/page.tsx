@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 import { Calendar, Search, Plus, Clock, User, Stethoscope, Phone } from "lucide-react"
 import Link from "next/link"
 import DashboardLayout from "@/components/layout/dashboard-layout"
@@ -53,14 +55,29 @@ export default function AppointmentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [typeFilter, setTypeFilter] = useState("all")
+  const [viewFilter, setViewFilter] = useState<"today" | "all">("today")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Vitals dialog state
+  const [isVitalsOpen, setIsVitalsOpen] = useState(false)
+  const [vitalsPatientId, setVitalsPatientId] = useState<string | null>(null)
+  const [isSavingVitals, setIsSavingVitals] = useState(false)
+  const [vitalsForm, setVitalsForm] = useState({
+    height: "",
+    weight: "",
+    systolic_bp: "",
+    diastolic_bp: "",
+    heart_rate: "",
+    temperature: "",
+    oxygen_saturation: "",
+  })
 
   useEffect(() => {
     const loadAppointments = async () => {
       const supabase = createClient()
       try {
-        const { data, error } = await supabase
+        const base = supabase
           .from("appointments")
           .select(`
             id,
@@ -73,14 +90,18 @@ export default function AppointmentsPage() {
             notes,
             created_at,
             patients!inner(first_name, last_name, phone),
-            doctors!inner(
-              first_name,
-              last_name,
-              specialization
-            )
+            doctors!inner(first_name, last_name, specialization)
           `)
-          .order("appointment_date", { ascending: true })
-          .order("appointment_time", { ascending: true })
+
+        let query
+        if (viewFilter === "today") {
+          const today = new Date().toISOString().split("T")[0]
+          query = base.eq("appointment_date", today).order("appointment_time", { ascending: true })
+        } else {
+          query = base.order("appointment_date", { ascending: false }).order("appointment_time", { ascending: false })
+        }
+
+        const { data, error } = await query
 
         if (error) {
           if (error.message.includes("does not exist") || error.message.includes("schema cache")) {
@@ -100,8 +121,9 @@ export default function AppointmentsPage() {
       }
     }
 
+    setIsLoading(true)
     loadAppointments()
-  }, [])
+  }, [viewFilter])
 
   useEffect(() => {
     const filtered = appointments.filter((appointment) => {
@@ -109,8 +131,9 @@ export default function AppointmentsPage() {
         `${appointment.patients.first_name} ${appointment.patients.last_name}`
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
-        appointment.doctors.users.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        appointment.doctors.specialization.toLowerCase().includes(searchTerm.toLowerCase())
+        `${appointment.doctors.first_name} ${appointment.doctors.last_name}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) || appointment.doctors.specialization.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchesStatus = statusFilter === "all" || appointment.status === statusFilter
       const matchesType = typeFilter === "all" || appointment.type === typeFilter
@@ -136,6 +159,55 @@ export default function AppointmentsPage() {
       minute: "2-digit",
       hour12: true,
     })
+  }
+
+  const calculateBMI = (height: number, weight: number) => {
+    if (!height || !weight) return 0
+    const heightInMeters = height / 100
+    return Math.round((weight / (heightInMeters * heightInMeters)) * 10) / 10
+  }
+
+  const openVitalsDialog = (patientId: string) => {
+    setVitalsPatientId(patientId)
+    setVitalsForm({
+      height: "",
+      weight: "",
+      systolic_bp: "",
+      diastolic_bp: "",
+      heart_rate: "",
+      temperature: "",
+      oxygen_saturation: "",
+    })
+    setIsVitalsOpen(true)
+  }
+
+  const saveVitals = async () => {
+    if (!vitalsPatientId) return
+    setIsSavingVitals(true)
+    const supabase = createClient()
+    try {
+      const height = Number.parseFloat(vitalsForm.height)
+      const weight = Number.parseFloat(vitalsForm.weight)
+      const bmi = calculateBMI(height, weight)
+      const { error } = await supabase.from("patient_vitals").insert({
+        patient_id: vitalsPatientId,
+        recorded_date: new Date().toISOString().split("T")[0],
+        height: height || null,
+        weight: weight || null,
+        bmi: bmi || null,
+        systolic_bp: Number.parseFloat(vitalsForm.systolic_bp) || null,
+        diastolic_bp: Number.parseFloat(vitalsForm.diastolic_bp) || null,
+        heart_rate: Number.parseFloat(vitalsForm.heart_rate) || null,
+        temperature: Number.parseFloat(vitalsForm.temperature) || null,
+        oxygen_saturation: Number.parseFloat(vitalsForm.oxygen_saturation) || null,
+      })
+      if (error) throw error
+      setIsVitalsOpen(false)
+    } catch (e) {
+      console.error("Failed to save vitals", e)
+    } finally {
+      setIsSavingVitals(false)
+    }
   }
 
   if (error) {
@@ -188,6 +260,15 @@ export default function AppointmentsPage() {
               className="pl-10"
             />
           </div>
+          <Select value={viewFilter} onValueChange={(v) => setViewFilter(v as any)}>
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder="View" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="today">Today's Appointments</SelectItem>
+              <SelectItem value="all">All (Newest First)</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Status" />
@@ -299,7 +380,12 @@ export default function AppointmentsPage() {
                       </Button>
                       {appointment.status === "scheduled" && (
                         <Button variant="outline" size="sm" asChild>
-                          <Link href={`/appointments/${appointment.id}/reschedule`}>Reschedule</Link>
+                          <Link href={`/appointments/${appointment.id}`}>Reschedule</Link>
+                        </Button>
+                      )}
+                      {viewFilter === "today" && (
+                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={() => openVitalsDialog(appointment.patient_id)}>
+                          Record Vitals
                         </Button>
                       )}
                     </div>
@@ -310,6 +396,62 @@ export default function AppointmentsPage() {
           </div>
         )}
       </div>
+      <Dialog open={isVitalsOpen} onOpenChange={setIsVitalsOpen}>
+        <DialogContent className="sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Record Vitals</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="height">Height (cm)</Label>
+                <Input id="height" type="number" step="0.1" value={vitalsForm.height} onChange={(e) => setVitalsForm((p) => ({ ...p, height: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="weight">Weight (kg)</Label>
+                <Input id="weight" type="number" step="0.1" value={vitalsForm.weight} onChange={(e) => setVitalsForm((p) => ({ ...p, weight: e.target.value }))} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="systolic_bp">Systolic BP (mmHg)</Label>
+                <Input id="systolic_bp" type="number" value={vitalsForm.systolic_bp} onChange={(e) => setVitalsForm((p) => ({ ...p, systolic_bp: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="diastolic_bp">Diastolic BP (mmHg)</Label>
+                <Input id="diastolic_bp" type="number" value={vitalsForm.diastolic_bp} onChange={(e) => setVitalsForm((p) => ({ ...p, diastolic_bp: e.target.value }))} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="heart_rate">Heart Rate (bpm)</Label>
+                <Input id="heart_rate" type="number" value={vitalsForm.heart_rate} onChange={(e) => setVitalsForm((p) => ({ ...p, heart_rate: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="temperature">Temperature (°C)</Label>
+                <Input id="temperature" type="number" step="0.1" value={vitalsForm.temperature} onChange={(e) => setVitalsForm((p) => ({ ...p, temperature: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="oxygen_saturation">Oxygen Saturation (%)</Label>
+                <Input id="oxygen_saturation" type="number" value={vitalsForm.oxygen_saturation} onChange={(e) => setVitalsForm((p) => ({ ...p, oxygen_saturation: e.target.value }))} />
+              </div>
+            </div>
+            {vitalsForm.height && vitalsForm.weight && (
+              <div className="text-sm text-blue-800 bg-blue-50 p-2 rounded">
+                BMI: <strong>{calculateBMI(Number.parseFloat(vitalsForm.height), Number.parseFloat(vitalsForm.weight))}</strong>
+              </div>
+            )}
+            <div className="flex gap-3">
+              <Button onClick={saveVitals} disabled={isSavingVitals} className="bg-blue-600 hover:bg-blue-700">
+                {isSavingVitals ? "Saving..." : "Save Vitals"}
+              </Button>
+              <Button variant="outline" onClick={() => setIsVitalsOpen(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   )
 }

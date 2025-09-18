@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Users, UserPlus, Calendar, FileText, Activity, Shield, AlertTriangle, Clock, Stethoscope } from "lucide-react"
 import Link from "next/link"
+import DashboardLayout from "@/components/layout/dashboard-layout"
 
 interface SystemStats {
   totalUsers: number
@@ -95,25 +96,30 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-96">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-sm text-gray-600">Loading admin dashboard...</p>
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-2 text-sm text-gray-600">Loading admin dashboard...</p>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     )
   }
 
   if (error) {
     return (
-      <Alert className="max-w-md mx-auto mt-8">
-        <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>{error}</AlertDescription>
-      </Alert>
+      <DashboardLayout>
+        <Alert className="max-w-md mx-auto mt-8">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      </DashboardLayout>
     )
   }
 
   return (
+    <DashboardLayout>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -269,5 +275,6 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
     </div>
+    </DashboardLayout>
   )
 }

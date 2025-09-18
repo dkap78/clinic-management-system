@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Users, Search, Plus, Edit, Trash2, AlertTriangle, UserCheck, UserX } from "lucide-react"
 import Link from "next/link"
+import DashboardLayout from "@/components/layout/dashboard-layout"
 
 interface User {
   id: string
@@ -119,25 +120,30 @@ export default function UserManagement() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-96">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-sm text-gray-600">Loading users...</p>
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-2 text-sm text-gray-600">Loading users...</p>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     )
   }
 
   if (error) {
     return (
-      <Alert className="max-w-md mx-auto mt-8">
-        <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>{error}</AlertDescription>
-      </Alert>
+      <DashboardLayout>
+        <Alert className="max-w-md mx-auto mt-8">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      </DashboardLayout>
     )
   }
 
   return (
+    <DashboardLayout>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -224,5 +230,6 @@ export default function UserManagement() {
         </CardContent>
       </Card>
     </div>
+    </DashboardLayout>
   )
 }
