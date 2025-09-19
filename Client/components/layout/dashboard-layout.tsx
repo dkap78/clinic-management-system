@@ -86,13 +86,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: Settings },
-    { name: "Consultation", href: "/consultation", icon: MessageSquare },
-    { name: "Doctors", href: "/doctors", icon: Stethoscope },
-    { name: "Patients", href: "/patients", icon: Users },
     { name: "Appointments", href: "/appointments", icon: Calendar },
+    { name: "Consultation", href: "/consultation", icon: MessageSquare },
+    { name: "Patients", href: "/patients", icon: Users },
+    { name: "Add Patient", href: "/patients/new", icon: UserPlus },
     { name: "Medical Records", href: "/medical-records", icon: FileText },
     { name: "Vitals", href: "/medical-records/vitals", icon: Activity },
-    { name: "Add Patient", href: "/patients/new", icon: UserPlus },
+    { name: "Doctors", href: "/doctors", icon: Stethoscope },
     { name: "Doctor Availability", href: "/doctors/availability", icon: Clock },
     ...(user?.role === "admin"
       ? [
